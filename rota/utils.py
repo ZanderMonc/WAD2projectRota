@@ -9,27 +9,27 @@ class Table(HTMLCalendar):
         self.month = month
         super(Table, self).__init__()
 
-    def dayform(self, day, shifts):
-        shifts_on_day = shifts.filter(day=day)
-        daystring = ''
+    def formatday(self, day):
+        shifts_on_day = Timetable.objects.filter(day=day)
+        d = ''
         for shift in shifts_on_day:
-            daystring += f'<li> {shift.requested_by_staff}</li>'
+            d += f'<li> {shift}</li>'
         if day != 0:
-            return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
+            return f'<td><span class="date">{day}</span><ul> {d} </ul></td>'
         else:
             return '<td></td>'
 
-    def formatweek(self, week, shifts):
+    def formatweek(self, week):
         weekstring = ''
-        for day, weekday in week:
-            weekstring += self.formatday(day, shifts)
+        for weekday in week:
+            weekstring += self.formatday(weekday)
         return f'<tr> {week} </tr>'
 
     def formatmonth(self, withyear=True):
-        shifts = Request.objects.getall()
-        cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
-        cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
-        cal += f'{self.formatweekheader()}\n'
+        # shifts = Timetable.objects.filter(Timetable.date != datetime.now())
+        tbl = f'<table border="0" cellpadding="0" cellspacing="0" class="timetable">\n'
+        tbl += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
+        tbl += f'{self.formatweekheader()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
-            cal += f'{self.formatweek(week, shifts)}\n'
-        return cal
+            tbl += f'{self.formatweek(week)}\n'
+        return tbl

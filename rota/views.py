@@ -19,11 +19,11 @@ from .utils import Table
 # Create your views here.
 
 
-class Table(generic.ListView):
+class T(generic.ListView):
     model = Timetable
     template_name = 'rota/timetable.html'
 
-    def timetable(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # today's date
@@ -76,7 +76,7 @@ def register(request):
 
             registered = True
         else:
-            print(user_form.errors, proifile_form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
