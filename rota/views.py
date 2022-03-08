@@ -114,10 +114,10 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return redirect(reverse('rota:index'))
+                return redirect(reverse('rota:timetable'))
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Rota account is disabled.")
+                return HttpResponse("Your RotaCare account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
             print(f"Invalid login details: {username}, {password}")
