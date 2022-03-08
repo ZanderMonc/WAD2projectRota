@@ -20,20 +20,22 @@ from .utils import Table
 
 
 class T(generic.ListView):
-    model = Timetable
+    model = Request
     template_name = 'rota/timetable.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # today's date
-        d = get_date(self.request.GET.get('day', None))
+        d = get_date(self.request.GET.get('month', None))
 
         # Instantiate our table class with today's year and date
-        rota = Table(d.year, d.month)
+        r = Table(d.year, d.month)
 
         # Calling the formatmonth method, which returns our table
-        html_rota = rota.formatmonth(withyear=True)
+
+        html_rota = r.formatmonth(withyear=True)
+
         context['timetable'] = mark_safe(html_rota)
         return context
 

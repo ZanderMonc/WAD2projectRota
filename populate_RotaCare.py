@@ -41,7 +41,7 @@ def add_UserProfile(registration_id, user,
 
 
 def add_Request(requested_by_staff="unknown", request_id="0", request_type="unknown", request_date="2001-01-01 00:01",
-                date_requesting="2001-02-01 00:01", swap_staff="Jane Doe"):
+                date_requesting="2022-09-09 00:05", swap_staff="Jane Doe"):
     R = Request.objects.get_or_create(requested_by_staff=requested_by_staff,
                                       request_id=request_id,
                                       request_type=request_type,

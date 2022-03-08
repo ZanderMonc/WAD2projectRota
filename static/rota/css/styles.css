@@ -1,7 +1,7 @@
 .timetable{
   width: 98%;
   margin: auto;
-  font-size: 13px;
+  font-size: 19px;
 }
 
 .timetable tr, .timetable td {
@@ -11,13 +11,13 @@
 .timetable th {
   padding: 10px;
   text-align: center;
-  font-size: 18px;
+  font-size: 25px;
 }
 
 .timetable td {
   width: 200px;
   height: 150px;
-  padding: 20px 0px 0px 5px;
+  padding: 15px 0px 0px 5px;
 }
 
 .month {
