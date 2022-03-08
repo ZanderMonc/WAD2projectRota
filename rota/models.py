@@ -39,6 +39,7 @@ class Timetable(models.Model):
     day = models.CharField(max_length=2)
     week_name = models.CharField(max_length=30)
     month_name = models.CharField(max_length=30)
+    date = models.DateTimeField(max_length=10)
 
     def __str__(self):
         return str(self.timetable_id)
