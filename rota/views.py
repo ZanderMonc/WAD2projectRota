@@ -1,8 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from rota.forms import UserForm, UserProfileForm
+from rota.forms import UserForm, UserProfileForm, ShiftForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -19,7 +19,7 @@ from .utils import Table
 # Create your views here.
 
 
-class T(generic.ListView):
+class T(generic.ListView):#T view represents a timetable
     model = Request
     template_name = 'rota/timetable.html'
 
@@ -38,6 +38,20 @@ class T(generic.ListView):
 
         context['timetable'] = mark_safe(html_rota)
         return context
+
+
+def shift(request, shift_id=None):
+    instance = Request()
+    if shift_id:
+        instance = get_object_or_404(Request, pk=shift_id)
+    else:
+        instance = Request()
+
+    form = ShiftForm(request.POST or None, instance=instance)
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('rota:timetable'))
+    return render(request, 'rota/shift.html', {'form': form})
 
 
 def get_date(req_day):

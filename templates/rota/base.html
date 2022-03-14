@@ -34,6 +34,8 @@
                 <!-- Show these links when the user is logged in -->
                 <li><a href="{% url 'rota:timetable'%}">Your Rota</a></li>
                 <li><a href="{% url 'rota:logout' %}">Logout</a></li>
+                <li><a href="{% url 'rota:shift_new' %}"> New Shift </a></li>
+
                 {% else %}
                 <!-- Show these links when the user is NOT logged in -->
                 <li><a href="{% url 'rota:register' %}">Sign Up</a></li>
