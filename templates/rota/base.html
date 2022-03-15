@@ -3,7 +3,13 @@
 
 <html>
     <head lang="en">
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
+      <link rel="stylesheet" type="text/css" href="{% static 'rota/css/styles.css' %}">
+
         <title>
             RotaCare -
             {% block title_block %}
@@ -14,14 +20,22 @@
     <body>
         <div>
             {% block body_block %}
+
             {% endblock %}
+
         </div>
         <hr/>
+
+    </body>
+    <footer>
         <div>
             <ul>
                 {% if user.is_authenticated %}
                 <!-- Show these links when the user is logged in -->
+                <li><a href="{% url 'rota:timetable'%}">Your Rota</a></li>
                 <li><a href="{% url 'rota:logout' %}">Logout</a></li>
+                <li><a href="{% url 'rota:shift_new' %}"> New Shift </a></li>
+
                 {% else %}
                 <!-- Show these links when the user is NOT logged in -->
                 <li><a href="{% url 'rota:register' %}">Sign Up</a></li>
@@ -30,7 +44,8 @@
                 <!-- Outside the conditional statements, ALWAYS show -->
                 <li><a href="{% url 'rota:index' %}">Index</a></li>
                 <li><a href="{% url 'rota:about' %}">About</a></li>
+
             </ul>
         </div>
-    </body>
+    </footer>
 </html>

@@ -1,0 +1,72 @@
+.timetable{
+  width: 98%;
+  margin: auto;
+  font-size: 13px;
+}
+
+.timetable tr, .timetable td {
+  border: 1px solid black;
+}
+
+.timetable th {
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.timetable td {
+  width: 200px;
+  height: 150px;
+  padding: 15px 0px 0px 5px;
+}
+
+.month {
+  font-size: 25px;
+}
+
+.date {
+  font-size: 16px;
+}
+
+ul {
+  height: 100%;
+  padding: 0px 5px 0px 20px;
+}
+
+a {
+  color: #17a2b8;
+}
+
+page-container {#keeps the page contents in a box separate from footer/header/sidebar
+  position: relative;
+  min-height: 100vh;
+}
+
+content-wrap {
+  padding-bottom: 2.5 rem;    /* Footer height */
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5 rem;            /* Footer height */
+  left: 0;
+  background-color: white;
+  color: blue;
+  text-align: center;
+  font-size: 125%;
+}
+
+.form {
+  margin: auto;
+}
+
+.form input, .form select, .form textarea {
+  border-radius: 5px;
+  border: 1px solid #17a2b8;
+  outline: none;
+  background: none;
+  padding: 5px;
+  width: 100%;
+}

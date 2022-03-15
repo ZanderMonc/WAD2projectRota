@@ -10,4 +10,7 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
-    ]
+    path('timetable/', views.T.as_view(), name='timetable'),
+    path('shift/new/', views.shift, name='shift_new'),
+    path('shift/edit/<shift_id>/', views.shift, name='shift_edit')
+]

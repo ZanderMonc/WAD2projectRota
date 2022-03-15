@@ -1,22 +1,77 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from rota.forms import UserForm, UserProfileForm
+from rota.forms import UserForm, UserProfileForm, ShiftForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from datetime import datetime
+from datetime import datetime, date
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views import generic
+from django.utils.safestring import mark_safe
+
+from .models import *
+from .utils import Table
+
 
 # Create your views here.
+
+
+class T(generic.ListView):#T view represents a timetable
+    model = Request
+    template_name = 'rota/timetable.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # today's date
+        d = get_date(self.request.GET.get('month', None))
+
+        # Instantiate our table class with today's year and date
+        r = Table(d.year, d.month)
+
+        # Calling the formatmonth method, which returns our table
+
+        html_rota = r.formatmonth(withyear=True)
+
+        context['timetable'] = mark_safe(html_rota)
+        return context
+
+
+def shift(request, shift_id=None):
+    instance = Request()
+    if shift_id:
+        instance = get_object_or_404(Request, pk=shift_id)
+    else:
+        instance = Request()
+
+    form = ShiftForm(request.POST or None, instance=instance)
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('rota:timetable'))
+    return render(request, 'rota/shift.html', {'form': form})
+
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
+
+
 def index(request):
-    return render(request, 'rota/index.html',)
+    return render(request, 'rota/index.html', )
+
 
 def about(request):
-    return render(request, 'rota/about.html',)
+    return render(request, 'rota/about.html', )
+
 
 def contactus(request):
-    return render(request, 'rota/contactus.html',)
+    return render(request, 'rota/contactus.html', )
+
 
 def register(request):
     registered = False
@@ -30,21 +85,22 @@ def register(request):
             user.set_password(user.password)
             user.save()
 
-            profile = profile_form.save(commit = False)
+            profile = profile_form.save(commit=False)
             profile.user = user
 
             profile.save()
 
             registered = True
         else:
-            print(user_form.errors, proifile_form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, "rota/register.html", context = {"user_form" : user_form,
-                                                            "profile_form" : profile_form,
-                                                            "registered" : registered,})
+    return render(request, "rota/register.html", context={"user_form": user_form,
+                                                          "profile_form": profile_form,
+                                                          "registered": registered, })
+
 
 def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
@@ -72,10 +128,10 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return redirect(reverse('rota:index'))
+                return redirect(reverse('rota:timetable'))
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Rota account is disabled.")
+                return HttpResponse("Your RotaCare account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
             print(f"Invalid login details: {username}, {password}")
@@ -87,6 +143,7 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'rota/login.html')
+
 
 @login_required
 def user_logout(request):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class UserProfile(models.Model):
@@ -31,6 +32,11 @@ class Request(models.Model):
     def __str__(self):
         return str(self.request_id)
 
+    @property
+    def get_html_url(self):
+        url = reverse('rota:shift_edit', args=(self.request_id,))
+        return f'<a href="{url}"> {self.request_date} </a>'
+
 
 class Timetable(models.Model):
     timetable_id = models.AutoField(primary_key=True)
@@ -39,6 +45,7 @@ class Timetable(models.Model):
     day = models.CharField(max_length=2)
     week_name = models.CharField(max_length=30)
     month_name = models.CharField(max_length=30)
+    date = models.DateTimeField(max_length=10)
 
     def __str__(self):
         return str(self.timetable_id)
