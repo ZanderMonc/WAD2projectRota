@@ -1,0 +1,61 @@
+{% extends 'rota/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Edit Profile
+{% endblock %}
+
+{% block body_block %}
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-left">
+                    <form method="post" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Username: </span>
+                            <input type="text" class="form-control" name="username" value="{{ user.username }}" aria-label="username" aria-describedby="basic-addon1 " readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">E-Mail: </span>
+                            <input type="text" class="form-control" name="email" value="{{ user.email }}" aria-label="email" aria-describedby="basic-addon1 " readonly>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">First Name: </span>
+                            <input type="text" class="form-control" name="first_name" value="{{  user.userprofile.first_name}}" maxlength="40" id="first_name"aria-label="first_name" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Last Name: </span>
+                            <input type="text" class="form-control" name="last_name" value="{{  user.userprofile.last_name}}" maxlength="40" id="last_name"aria-label="last_name" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Job Title: </span>
+                            <input type="text" class="form-control" name="job_title" value="{{ user.userprofile.job_title }}" maxlength="40" id="job_title" aria-label="job_title" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Phone Number: </span>
+                            <input type="text" class="form-control" name="phone_number" value="{{ user.userprofile.phone_number }}" maxlength="15" id="phone_number" aria-label="phone_number" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Ward: </span>
+                            <input type="text" class="form-control" name="ward" value="{{  user.userprofile.ward }}" maxlength="40" id="ward" aria-label="ward" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Admission Date: </span>
+                            <input type="text" class="form-control" name="date_admission" value="{{  user.userprofile.date_admission }}" maxlength="40" id="date_admission" aria-label="date_admission" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block text-white">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

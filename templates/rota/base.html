@@ -4,12 +4,14 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=yes" name="viewport">
       <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
-      <link rel="stylesheet" type="text/css" href="{% static 'rota/css/styles.css' %}">
-
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" rel="stylesheet">
+        <link href="{% static 'rota/css/styles.css' %}" rel="stylesheet" type="text/css">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <title>
             RotaCare -
             {% block title_block %}
@@ -17,35 +19,59 @@
             {% endblock %}
         </title>
     </head>
+
     <body>
-        <div>
+    <div class="p-5 bg-primary bg-gradient bg-opacity-75 text-white text-center">
+        <h1>RotaCare</h1>
+        <p>Caring for your management system!</p>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-primary navbar-primary ">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="{% url 'rota:index' %}">RotaCare</a>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                    <a class="nav-link text-white" href="{% url 'rota:profile' %}"> Profile </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'rota:timetable'%}">Your Rota</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'rota:shift_new' %}"> New Shift </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="{% url 'rota:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'rota:login' %}">Login</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link text-white" href="{% url 'rota:register' %}">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div>
             {% block body_block %}
 
             {% endblock %}
-
-        </div>
-        <hr/>
-
+    </div>
     </body>
     <footer>
-        <div>
-            <ul>
-                {% if user.is_authenticated %}
-                <!-- Show these links when the user is logged in -->
-                <li><a href="{% url 'rota:timetable'%}">Your Rota</a></li>
-                <li><a href="{% url 'rota:logout' %}">Logout</a></li>
-                <li><a href="{% url 'rota:shift_new' %}"> New Shift </a></li>
-
-                {% else %}
-                <!-- Show these links when the user is NOT logged in -->
-                <li><a href="{% url 'rota:register' %}">Sign Up</a></li>
-                <li><a href="{% url 'rota:login' %}">Login</a></li>
-                {% endif %}
-                <!-- Outside the conditional statements, ALWAYS show -->
-                <li><a href="{% url 'rota:index' %}">Index</a></li>
-                <li><a href="{% url 'rota:about' %}">About</a></li>
-
-            </ul>
-        </div>
+        {% block footer %}
+                <nav class="navbar navbar-expand-sm bg-primary navbar-primary justify-content-center">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{% url 'rota:about' %}">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{% url 'rota:contactus' %}">Contact us</a>
+                            </li>
+                        </ul>
+                </nav>
+        {% endblock %}
     </footer>
+
 </html>

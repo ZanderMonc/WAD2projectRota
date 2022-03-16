@@ -6,5 +6,9 @@
 {% endblock %}
 
 {% block body_block %}
-    <strong> Homepage page - Insert something here later on </strong>
+    {% if user.is_authenticated %}
+        <meta http-equiv = "refresh" content = "0; {% url 'rota:timetable' %}" />
+    {% else %}
+        <meta http-equiv = "refresh" content = "0; {% url 'rota:login' %}" />
+    {% endif %}
 {% endblock %}

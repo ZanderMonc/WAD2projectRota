@@ -11,12 +11,16 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ("username", "email", "password",)
 
-
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ("first_name", "last_name", "job_title", "job_id", "phone_number", "ward",)
 
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ("first_name", "last_name", "job_title", "phone_number", "ward",)
+        exclude = ('user',)
 
 class ShiftForm(ModelForm):
     class Meta:

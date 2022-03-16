@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from rota.forms import UserForm, UserProfileForm, ShiftForm
+from rota.forms import UserForm, UserProfileForm, ShiftForm, UpdateProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -151,3 +151,21 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage.
     return redirect(reverse('rota:index'))
+
+@login_required
+def profile(request):
+    return render(request, 'rota/profile.html', )
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        update_form = UpdateProfileForm(request.POST, instance=request.user.userprofile)
+        if update_form.is_valid:
+            update_form.save()
+            return redirect('rota:profile')
+    else:
+        update_form = UpdateProfileForm(instance=request.user)
+        args = {
+            'form1': update_form,
+        }
+        return render(request, 'rota/editprofile.html', args)

@@ -17,9 +17,10 @@ class UserProfile(models.Model):
     ward = models.CharField(max_length=40)
     date_admission = models.DateTimeField(auto_now_add=True)
 
+
+
     def __str__(self):
         return str(self.user.username)
-
 
 class Request(models.Model):
     requested_by_staff = models.CharField(max_length=80)
