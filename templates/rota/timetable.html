@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block body_block%}
+<div class="clearfix">
+	<a class="btn btn-info left" href="{% url 'rota:timetable' %}?{{ prev_month }}"> Previous Month </a>
+	<a class="btn btn-info right" href="{% url 'rota:timetable' %}?{{ next_month }}"> Next Month </a>
+</div>
 {{ timetable }}
 {% endblock %}
 

@@ -36,7 +36,7 @@ class Request(models.Model):
     @property
     def get_html_url(self):
         url = reverse('rota:shift_edit', args=(self.request_id,))
-        return f'<a href="{url}"> {self.request_date} </a>'
+        return f'<a href="{url}"> {self.requested_by_staff + " 07:30 to 18:30 "} </a>'
 
 
 class Timetable(models.Model):

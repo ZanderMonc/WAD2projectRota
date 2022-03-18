@@ -1,3 +1,5 @@
+import calendar
+
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
@@ -6,7 +8,7 @@ from rota.forms import UserForm, UserProfileForm, ShiftForm, UpdateProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
@@ -19,7 +21,7 @@ from .utils import Table
 # Create your views here.
 
 
-class T(generic.ListView):#T view represents a timetable
+class T(generic.ListView):  # T view represents a timetable
     model = Request
     template_name = 'rota/timetable.html'
 
@@ -37,7 +39,24 @@ class T(generic.ListView):#T view represents a timetable
         html_rota = r.formatmonth(withyear=True)
 
         context['timetable'] = mark_safe(html_rota)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
         return context
+
+
+def prev_month(d):
+    first = d.replace(day=1)
+    pr_month = first - timedelta(days=1)
+    month = 'month=' + str(pr_month.year) + '-' + str(pr_month.month)
+    return month
+
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    n_month = last + timedelta(days=1)
+    month = 'month=' + str(n_month.year) + '-' + str(n_month.month)
+    return month
 
 
 def shift(request, shift_id=None):
@@ -152,9 +171,11 @@ def user_logout(request):
     # Take the user back to the homepage.
     return redirect(reverse('rota:index'))
 
+
 @login_required
 def profile(request):
     return render(request, 'rota/profile.html', )
+
 
 @login_required
 def edit_profile(request):
