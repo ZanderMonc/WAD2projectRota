@@ -65,7 +65,7 @@ footer {
   height: 2.5 rem;           /* Footer height */
   left: 0;
   background-color: white;
-  color: blue;
+  /* color: blue; */
   text-align: center;
   font-size: 125%;
   background: #1488CC;  /* fallback for old browsers */
@@ -133,4 +133,21 @@ button{
   padding: 10px;
   border: 1px solid black;
   color: black;
+}
+
+#eventform{
+  /* padding-top: 20px; */
+  font-family: 'Lato', sans-serif;
+  margin: 20px;
+}
+#eventform table{
+  border: none;
+  padding: 20px;
+  font-family: 'Lato', sans-serif;
+}
+#eventtitle{
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }

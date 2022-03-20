@@ -5,7 +5,8 @@ Event
 {% endblock %}
 
 {% block body_block %}
-<form method="post">
+<h4 id="eventtitle">Event</h4>
+<form method="post" id = "eventform">
   {% csrf_token %}
   <table class="form form-table">
     {{ form }}
