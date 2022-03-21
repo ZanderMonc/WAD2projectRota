@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "rotacare",
+  "private_key_id": "caa0fcb3d409f56d73df65edf798e45e1921f266",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCumZTO1fzy1IYu\nzo0oG/u+ZXjNo1kTwq0/1p/EhLJjrn2enAkfCddNt30s8Ay2DIbHGUDktb6f/Q6i\n/A2VUfiv4BkJMnq2rOQeKB4/TTDwAfE6a25lrQYHVpUOEHLyXklK5Aga3exXlyBn\n+rX6Ox6/q1dQqjjIUgnACskPWHIlp+EFs71drbqN0o/T7tRyQP9N8ezSnubvGiyz\nKLfF2WVpj5yXBsoIVt5Em2jSfmB7P0rdRf1bskvvD8pSVmcX7EgTeAXAMESn1sue\nFoPiGZxiYCC/wFa+coa5tl4yNbW0R3BSp7kvsTORT/UJ0GWAsoGCKrb2fTLH9MCZ\n5mYGycifAgMBAAECggEAFyUNuFNeehQZC3he9tuqxeTunBfUtY1faPB68lKC0Tru\ntQlLHj2wOEGkCsJxdOp5LUhYNVkwQUYK3CkcZdhdZncG6pSx9qg5fxPjWpHRdGdV\ngmB+XGUQwQVFsf0VN7Ku9Yn/1wvnCf9jENWHrPmMTG0aoHtIFqnlV/s2Bt47F2mO\npWs1igAqu4OkjV6OhjJqYiHGTbTXtcBLSLMvDn3Rz+el2B1m+Suamk/OlObOAH+3\nfw4k29W/G/hn7JXBBE/nQ9JnM+8RYfvJf94XN7YuwHwmca9pYcOlqoMDLlwaA0SD\n8ZSTHCxYMLAafiP+kE0Owk1I2zvje/cPieaTuuNyNQKBgQDwJLxQXoRB+Kt1E+vj\ns1hd0qn8GZ58zL6Cb8K1Om+ktBnnNFkf2mVrPVApBZP3dN2SbEJFOAuLbP8QlZ+7\nR2YUqvPmulPqoa/WkSA/sP0qM32TiCcUshP1StKzmtsv/KVZ7kHMYPGRvVMmv0RW\nwpMqCHT7ccQQCtedEJiEFguOnQKBgQC6IO4lC5sisaMLGjVr7XvsHyVVHpJ88k+c\nnrRx+KN0x2RcCClLKLIV/KimZoxpT4dWBrxDSTgw67EMGXUpX8iPRFbyU0dptsp1\nd0sSWmm2ElVu6iHtR43lKSYf+rID9eH3kPPhNG2N2RsyRIV3LpUBENVU9LFk3k7K\nqcJokHPRawKBgEf82y7EhqU4JD3ekPIbSzwk8KwQCgCjZ+C2HAoz0E/xZWp3uNfh\nolF5edQyRd8Ce4FvTpZtbJiJPhT8pXuAtcswTBk4dft6KLoLmz08k0fZU6WsRPrh\nPzZjDbKlk1tZQ0AoOjVIQmJL/Oc6owPXJEKPcnIF8p5UgbolxXKjISfJAoGAaSz8\nhRB23Hb2g+qOb2tmEDpVVTEOY+5k0ELaAmEWtIGLk3nFI8ReRZBdGJJwG34mIpVx\nwq/YQcSdahHko7mNUm+ylgI7I2B4LUJ4uGlAvPLFNgS1oShC5VCIS5/VAenqg4N0\nXDjNA0/AT3pq1LsM1epWMkiHCVGZwmmFAqNF3vsCgYApG3mPtZxHM0FtFV5Ah3wZ\nzFU1XdcdMZPd9JFLn0J9zjc+jW9Tu142+b9sxYxWosasY/gQ4+yaqvoDKGyjuwW/\n5ZHmVZy0hye+/9pAtVYeGvdK9/yfWbiTpphrhy8jqdzdKIh2g0h/DG+WFnrX2iYC\nJqJ9Q4FZInfF5sLy98HAmA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "rotacaretester@rotacare.iam.gserviceaccount.com",
+  "client_id": "116649297615709065719",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rotacaretester%40rotacare.iam.gserviceaccount.com"
+}

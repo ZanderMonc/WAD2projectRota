@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+import datetime
+from datetime import timedelta
 from calendar import HTMLCalendar
 from rota.models import Timetable, Request
 
@@ -34,3 +35,4 @@ class Table(HTMLCalendar):
         for week in self.monthdays2calendar(self.year, self.month):
             tbl += f'{self.formatweek(week, shifts)}\n'
         return tbl
+
