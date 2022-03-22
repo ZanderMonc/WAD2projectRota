@@ -1,5 +1,6 @@
 {% extends 'rota/base.html' %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title_block %}
 Sign in
@@ -24,7 +25,14 @@ Sign in
                                 <input type="password" id = "password" class="form-control" name="password" value="" aria-label="password" aria-describedby="basic-addon1" size="50" >
                             </div>
                             <button class="btn btn-primary text-white btn-lg btn-block" type="submit">Login</button>
+
                         </form>
+                         <div>
+                             <a class="btn btn-primary text-white btn-lg btn-block" href="{% provider_login_url 'google' %}" >Login With Google</a>
+                         </div>
+
+
+                        </li>
                     </div>
                 </div>
             </div>
