@@ -14,8 +14,8 @@ class Table(HTMLCalendar):
         shifts_on_day = shifts.filter(request_date__day=day)
         d = ''
         for shift in shifts_on_day:
-            d += 'SHIFT: '
-            d += f'<li> {shift.get_html_url} </li>'
+                d += f'<li> {shift.get_html_url} </li>'
+
         if day != 0:
             return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
