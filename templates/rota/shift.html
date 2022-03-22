@@ -1,16 +1,62 @@
 {% extends 'rota/base.html' %}
 
-{% block title %}
-Event
+{% block title_block %}
+  Add new shift
 {% endblock %}
 
 {% block body_block %}
-<h4 id="eventtitle">Event</h4>
-<form method="post" id = "eventform">
-  {% csrf_token %}
-  <table class="form form-table">
-    {{ form }}
-    <tr><td colspan="2"><button type="submit" class="btn btn-info right"> Submit </button></td></tr>
-  </table>
-</form>
+<div class="container py-4 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card-body p-5 text-left">
+          <h3 class="mb-0 text-center">Add new shift</h3>
+          <!-- Wrapper container -->
+          <div class="container py-4">
+            <form method="post">
+              {% csrf_token %}
+              <table class="form form-table">
+                <div class="input-group mb-3">
+
+                  <label class="input-group-text" for="requested_by_staff">Staff: </label>
+                  <select class="form-select" id="requested_by_staff" name="requested_by_staff" value="">
+                    <option selected value="{{user.userprofile.job_title}}">Choose...</option>
+                    {% for each_user in all_users %}
+                    <option value = "{{each_user.userprofile.first_name}}">{{each_user.userprofile.first_name}} {{each_user.userprofile.last_name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="staff_job_title">Job Title: </label>
+                  <select class="form-select" id="staff_job_title" name="staff_job_title" value="">
+                    <option selected value="">Choose...</option>
+                    <option value="Healthcare Support Worker">Healthcare Support Worker</option>
+                    <option value="Staff Nurse">Staff Nurse</option>
+                    <option value="Charge Nurse">Charge Nurse</option>
+                  </select>
+                </div>
+
+                <input type="radio" class="btn-check" name="shift_time" id="day_shift" autocomplete="off" >
+                <label class="btn btn-outline-primary" for="day_shift">Day Shift</label>
+
+                <input type="radio" class="btn-check" name="shift_time" id="night_shift" autocomplete="off">
+                <label class="btn btn-outline-primary" for="night_shift">Night Shift</label>
+
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="request_date">Date: </label>
+                  <input id="request_date" class="form-control" type="date" name="request_date" />
+                  <span id="startDateSelected"></span>
+                </div>
+                <tr><td colspan="2"><button type="submit" class="btn btn-primary btn-lg btn-block text-white">Submit</button></td></tr>
+              </table>
+            </form>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
+

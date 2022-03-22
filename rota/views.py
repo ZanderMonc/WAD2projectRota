@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
 
 from .models import *
 from .utils import Table
@@ -61,6 +62,9 @@ def next_month(d):
 
 def shift(request, shift_id=None):
     instance = Request()
+
+    user = User.objects.get(id=request.user.id)
+    all_users = User.objects.all()
     if shift_id:
         instance = get_object_or_404(Request, pk=shift_id)
     else:
@@ -70,7 +74,9 @@ def shift(request, shift_id=None):
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('rota:timetable'))
-    return render(request, 'rota/shift.html', {'form': form})
+    return render(request, 'rota/shift.html', {'form': form, 'user':user, 'all_users':all_users, })
+
+
 
 
 def get_date(req_day):

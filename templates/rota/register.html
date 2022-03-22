@@ -1,5 +1,5 @@
 {% extends 'rota/base.html' %}
-{% load static %}
+{% load staticfiles %}
 
 {% block title_block %}
 Register
@@ -41,13 +41,13 @@ Register
                             </div>
 
                             <div class="input-group mb-3">
-                                <span class="input-group-text">Job Title: </span>
-                                <input type="text" class="form-control" name="job_title" value="" maxlength="40" id="job_title" aria-label="job_title" aria-describedby="basic-addon1" >
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Job ID: </span>
-                                <input type="text" class="form-control" name="job_id" value="" maxlength="2" id="job_id" aria-label="job_id" aria-describedby="basic-addon1" >
+                                <label class="input-group-text" for="job_title">Job Title: </label>
+                                <select class="form-select" id="job_title" name="job_title">
+                                    <option selected>Choose...</option>
+                                    <option value="Healthcare Support Worker">Healthcare Support Worker</option>
+                                    <option value="Staff Nurse">Staff Nurse</option>
+                                    <option value="Charge Nurse">Charge Nurse</option>
+                                </select>
                             </div>
 
                             <div class="input-group mb-3">
@@ -59,6 +59,12 @@ Register
                                 <span class="input-group-text">Ward: </span>
                                 <input type="text" class="form-control" name="ward" value="" maxlength="40" id="ward" aria-label="ward" aria-describedby="basic-addon1" >
                             </div>
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="image">Profile Picture:</label>
+                                <input type="file" class="form-control" name="image" value="" id="image" aria-label="image" accept="image/png, image/jpg, image/jpeg">
+                            </div>
+
                             <button class="btn btn-primary btn-lg btn-block text-white" type="submit" value="Register">Register</button>
                         </form>
                     </div>

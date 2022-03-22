@@ -1,5 +1,5 @@
 {% extends 'rota/base.html' %}
-{% load static %}
+{% load staticfiles %}
 
 {% block title_block %}
 Edit Profile
@@ -33,8 +33,13 @@ Edit Profile
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Job Title: </span>
-                            <input type="text" class="form-control" name="job_title" value="{{ user.userprofile.job_title }}" maxlength="40" id="job_title" aria-label="job_title" aria-describedby="basic-addon1">
+                            <label class="input-group-text" for="job_title">Job Title: </label>
+                            <select class="form-select" id="job_title" name="job_title" value="{{user.userprofile.job_title}}">
+                                <option selected value="{{user.userprofile.job_title}}">Choose...</option>
+                                <option value="Healthcare Support Worker">Healthcare Support Worker</option>
+                                <option value="Staff Nurse">Staff Nurse</option>
+                                <option value="Charge Nurse">Charge Nurse</option>
+                            </select>
                         </div>
 
                         <div class="input-group mb-3">
@@ -50,6 +55,11 @@ Edit Profile
                         <div class="input-group mb-3">
                             <span class="input-group-text">Admission Date: </span>
                             <input type="text" class="form-control" name="date_admission" value="{{  user.userprofile.date_admission }}" maxlength="40" id="date_admission" aria-label="date_admission" aria-describedby="basic-addon1" readonly>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="image">Profile Picture:</label>
+                            <input type="file" class="form-control" name="image" value="" id="image" aria-label="image" accept="image/png, image/jpg, image/jpeg">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg btn-block text-white">Save Changes</button>
                     </form>
