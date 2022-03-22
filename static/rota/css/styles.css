@@ -48,6 +48,7 @@ content-wrap {
 }
 
 footer {
+  position: fixed;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -83,8 +84,6 @@ footer {
 
 .btn {
   outline: none;
-  color: black;
-  background-color: transparent;
   box-shadow: 0 0 0 0;
 }
 
