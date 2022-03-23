@@ -12,7 +12,6 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     job_title = models.CharField(max_length=40)
-    job_id = models.CharField(max_length=1)
     phone_number = models.CharField(max_length=15)
     ward = models.CharField(max_length=40)
     date_admission = models.DateTimeField(auto_now_add=True)
