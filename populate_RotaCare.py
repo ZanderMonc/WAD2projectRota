@@ -28,7 +28,7 @@ def populate():
 
     add_Timetable()  # adds the default timetable object
     for i in range(30):
-        add_Request(request_date=datetime.datetime.now() + datetime.timedelta(days=i), )
+        add_Request(request_id=str(i), request_date=datetime.datetime.now() + datetime.timedelta(days=i), )
         # adds 30 default request objects once daily from the present day.
 
 
