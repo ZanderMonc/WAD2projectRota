@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
 
+
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,23 +21,24 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user.username)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         super().save()
+        if self.image != "":
+            img = Image.open(self.image.path)  # Open image
 
-        img = Image.open(self.image.path) # Open image
+            # resize image
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size)  # Resize image
+                img.save(self.image.path)  # Save it again and override the larger image
 
-        # resize image
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size) # Resize image
-            img.save(self.image.path) # Save it again and override the larger image
 
 class Request(models.Model):
     requested_by_staff = models.CharField(max_length=80)
     request_id = models.AutoField(primary_key=True)
     staff_job_title = models.CharField(max_length=40)
     request_date = models.DateTimeField(max_length=10)
-    shift_time = models.CharField(max_length = 20)
+    shift_time = models.CharField(max_length=20)
 
     def __str__(self):
         return str(self.request_id)
@@ -49,6 +51,7 @@ class Request(models.Model):
     @property
     def get_job_title(self):
         return self.staff_job_title
+
 
 class Timetable(models.Model):
     timetable_id = models.AutoField(primary_key=True)
