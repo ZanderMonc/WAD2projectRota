@@ -61,9 +61,11 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'rota:timetable'%}">Your Rota</a>
                 </li>
+                {% if user.userprofile.job_title == "Charge Nurse" %}
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'rota:shift_new' %}"> New Shift </a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link text-white " href="{% url 'rota:logout' %}">Logout</a>
                 </li>
