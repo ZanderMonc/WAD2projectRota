@@ -15,7 +15,7 @@ class Table(HTMLCalendar):
         d = ''
         for shift in shifts_on_day:
             d += f'<li> {shift.get_html_url} </li>'
-            d += shift.shift_time
+            d += shift.get_shift_time
         if day != 0:
             return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
