@@ -8,6 +8,8 @@ from django.conf import settings
 import os
 import re
 from django.test import TestCase
+from django.urls import reverse
+
 from rota.models import Request, UserProfile
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}RotaCare TEST FAILURE =({os.linesep}================{os.linesep}"
@@ -21,6 +23,8 @@ class ConfigTestCase(TestCase):
 
     def test_session_app_present(self):
         self.assertTrue('django.contrib.sessions' in settings.INSTALLED_APPS)
+
+    def test_app_present(self):
         self.assertTrue('rota' in settings.INSTALLED_APPS)
 
 
@@ -48,7 +52,7 @@ class ModelsTestCase(TestCase):
                                    phone_number="00000000001", ward="A1",
                                    date_admission=datetime.datetime.now(), image="")
 
-    def test_request_are_correct(self):
+    def test_requests_are_correct(self):
         Req1 = Request.objects.get(requested_by_staff="unknown")
         Req2 = Request.objects.get(requested_by_staff="JaneDoe")
         self.assertEqual(Req1.request_id, 0)
@@ -59,3 +63,12 @@ class ModelsTestCase(TestCase):
         Usr2 = UserProfile.objects.get(registration_id="1")
         self.assertEqual(Usr1.job_title, "Charge Nurse")
         self.assertEqual(Usr2.job_title, "Healthcare Support Assistant")
+
+
+class ViewTests(TestCase):
+
+    def test_index_view(self):
+        response = self.client.get(reverse('rota:index'))
+        content = response.content.decode()
+        self.assertTrue(content)
+

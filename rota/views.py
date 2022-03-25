@@ -118,6 +118,10 @@ def register(request):
             profile.save()
 
             registered = True
+
+            return render(request, "rota/login.html", context={"user_form": user_form,
+                                                                  "profile_form": profile_form,
+                                                                  "registered": registered, })
         else:
             print(user_form.errors, profile_form.errors)
     else:
