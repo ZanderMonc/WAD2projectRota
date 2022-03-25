@@ -149,3 +149,5 @@ SITE_ID = 7
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+USE_TZ = False #to ignore warnings on using datetime.now based on gmt
