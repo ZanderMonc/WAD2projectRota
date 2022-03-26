@@ -60,22 +60,24 @@ def next_month(d):
     return month
 
 
-def shift(request, shift_id=None):
+def shift(request, shift_id=None,):
+
     instance = Request()
-
     user = User.objects.get(id=request.user.id)
+    userprofile = UserProfile.objects.filter(user=user)[0]
     all_users = User.objects.all()
-    if shift_id:
-        instance = get_object_or_404(Request, pk=shift_id)
-    else:
-        instance = Request()
+    if userprofile.job_title == "Charge Nurse":
+        if shift_id:
+            instance = get_object_or_404(Request, pk=shift_id)
+        else:
+            instance = Request()
 
-    form = ShiftForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('rota:timetable'))
-    return render(request, 'rota/shift.html', {'form': form, 'user':user, 'all_users':all_users, })
-
+        form = ShiftForm(request.POST or None, instance=instance)
+        if request.POST and form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('rota:timetable'))
+        return render(request, 'rota/shift.html', {'form': form, 'user':user, 'all_users':all_users, })
+    return HttpResponseRedirect(reverse('rota:timetable'))
 
 
 
@@ -116,6 +118,10 @@ def register(request):
             profile.save()
 
             registered = True
+
+            return render(request, "rota/login.html", context={"user_form": user_form,
+                                                                  "profile_form": profile_form,
+                                                                  "registered": registered, })
         else:
             print(user_form.errors, profile_form.errors)
     else:

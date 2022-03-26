@@ -18,11 +18,14 @@ class UserProfile(models.Model):
     date_admission = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
+
+
     def __str__(self):
         return str(self.user.username)
 
     def save(self, *args, **kwargs):
         super().save()
+
         if self.image != "":
             img = Image.open(self.image.path)  # Open image
 
@@ -51,6 +54,10 @@ class Request(models.Model):
     @property
     def get_job_title(self):
         return self.staff_job_title
+
+    @property
+    def get_shift_time(self):
+        return self.shift_time
 
 
 class Timetable(models.Model):

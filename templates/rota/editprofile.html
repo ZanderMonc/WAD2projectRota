@@ -33,16 +33,6 @@ Edit Profile
                         </div>
 
                         <div class="input-group mb-3">
-                            <label class="input-group-text" for="job_title">Job Title: </label>
-                            <select class="form-select" id="job_title" name="job_title" value="{{user.userprofile.job_title}}">
-                                <option selected value="{{user.userprofile.job_title}}">Choose...</option>
-                                <option value="Healthcare Support Worker">Healthcare Support Worker</option>
-                                <option value="Staff Nurse">Staff Nurse</option>
-                                <option value="Charge Nurse">Charge Nurse</option>
-                            </select>
-                        </div>
-
-                        <div class="input-group mb-3">
                             <span class="input-group-text">Phone Number: </span>
                             <input type="text" class="form-control" name="phone_number" value="{{ user.userprofile.phone_number }}" maxlength="15" id="phone_number" aria-label="phone_number" aria-describedby="basic-addon1">
                         </div>
