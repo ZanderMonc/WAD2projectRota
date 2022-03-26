@@ -24,7 +24,7 @@ SECRET_KEY = 'nu$f^a+8@e(y6l(^jjnktf24l)06zi2g*dd8qe4c71agxdp5kt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zandermonc.pythonanywhere.com']
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
