@@ -73,28 +73,16 @@ class ModelsTestCase(TestCase):
                                request_date="2001-01-01 00:01", )
         Request.objects.create(requested_by_staff="JaneDoe", request_id="1",
                                request_date="2001-01-01 00:01")
-        user1 = User.objects.create_user('jane',
-                                         'doe' + '@nhs.com',
-                                         'janepassword')
-        user2 = User.objects.create_user('joe',
-                                         'done@nhs.com',
-                                         'joepassword')
 
-        add_UserProfile(user1, registration_id="0", first_name="Jane",
-                        last_name="Doe", job_title="Charge Nurse",
-                        phone_number="00000000000", ward="A2",
-                        date_admission=datetime.now(), image="")
-        add_UserProfile(user2, registration_id="1", first_name="Joe",
-                        last_name="Done", job_title="Healthcare Support Assistant",
-                        phone_number="00000000001", ward="A1",
-                        date_admission=datetime.now(), image="")
+        user1 = create_user('jane', 'doe@nhs.com', '0', "Charge Nurse", "Jane", "Doe")
+        user2 = create_user('joe', 'done@nhs.com', '1', 'Healthcare Support Assistant', 'Joe', 'Done')
 
     def test_request_contents(self):
         self.assertEqual("JaneDoe", Request.objects.get(request_id="1").requested_by_staff)
 
     def test_userprofile_contents(self):
         self.assertNotEqual("Jane", UserProfile.objects.get(registration_id="1").first_name)
-        self.assertEqual("Jane", UserProfile.objects.get(registration_id="0").first_name)
+        self.assertEqual("Joe", UserProfile.objects.get(registration_id="1").first_name)
 
 
 class ViewTests(TestCase):
@@ -229,17 +217,7 @@ class ViewTests(TestCase):
 
 class TestFunction(TestCase):
     def test_login_functionality(self):
-        user = User.objects.get_or_create(username='Jane',
-                                          email='doe@nhs.com',
-                                          password='janepassword')[0]
-        user.set_password('janepassword')
-        user.save()
-
-        add_UserProfile(registration_id="1",
-                        job_title="Charge Nurse",
-                        first_name="Jane",
-                        last_name="Doe",
-                        user=user)
+        user = create_user('Jane', 'doe@nhs.com', "1", 'Charge Nurse', "Jane", "Doe")
         response = self.client.post(reverse('rota:login'), {'username': 'Jane', 'password': 'janepassword'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('rota:timetable'))
@@ -250,18 +228,7 @@ class TestFunction(TestCase):
         self.assertEqual(response.url, '/accounts/login/?next=/logout/')
 
     def test_new_shift(self):
-        user = User.objects.get_or_create(username='Joe',
-                                          email='doe@nhs.com',
-                                          password='janepassword')[0]
-        user.set_password('janepassword')
-        user.save()
-
-        add_UserProfile(registration_id="2",
-                        job_title="Charge Nurse",
-                        first_name="Joe",
-                        last_name="Doe",
-                        user=user,
-                        image="default.jpg")
+        user = create_user("Joe", 'doe@nhs.com', '2', "Charge Nurse", 'Joe', 'Doe')
         r = self.client.post(reverse('rota:login'), {'username': 'Joe', 'password': 'janepassword'})
         response = self.client.get(reverse('rota:shift_new'))
         content = response.content.decode()
@@ -333,6 +300,5 @@ class TestFunction(TestCase):
 
         response = self.client.get(reverse('rota:shift_edit', kwargs={'shift_id': shift2.request_id}))
         content = response.content.decode()
-        print(content)
         self.assertTrue("Add new shift" not in content)
         self.assertTrue(response.url, '')
