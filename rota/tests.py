@@ -10,6 +10,7 @@ import re
 from django.test import TestCase
 from django.urls import reverse
 
+import populate_RotaCare
 from rota.models import Request, UserProfile
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}RotaCare TEST FAILURE =({os.linesep}================{os.linesep}"
@@ -204,9 +205,9 @@ class ViewTests(TestCase):
         searchfor = r' <button class="btn btn-primary btn-lg btn-block text-white" type="submit" value="Register">Register</but'
         self.assertTrue(re.search(searchfor, content))
 
+
 class TestFunction(TestCase):
     def test_login_functionality(self):
-
         user = User.objects.get_or_create(username='Jane',
                                           email='doe@nhs.com',
                                           password='janepassword')[0]
@@ -227,3 +228,73 @@ class TestFunction(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/accounts/login/?next=/logout/')
 
+    def test_new_shift(self):
+        user = User.objects.get_or_create(username='Joe',
+                                          email='doe@nhs.com',
+                                          password='janepassword')[0]
+        user.set_password('janepassword')
+        user.save()
+
+        add_UserProfile(registration_id="2",
+                        job_title="Charge Nurse",
+                        first_name="Joe",
+                        last_name="Doe",
+                        user=user,
+                        image="default.jpg")
+        r = self.client.post(reverse('rota:login'), {'username': 'Joe', 'password': 'janepassword'})
+        response = self.client.get(reverse('rota:shift_new'))
+        content = response.content.decode()
+
+        try:
+            self.assertEqual(response.status_code, 200)
+        except:
+            self.assertEqual(response.status_code, 302)
+        self.assertTrue('Add new shift' in content)
+
+    def test_editprofile(self):
+        user = User.objects.get_or_create(username='Joan',
+                                          email='done@nhs.com',
+                                          password='janepassword')[0]
+        user.set_password('janepassword')
+        user.save()
+
+        add_UserProfile(registration_id="3",
+                        job_title="Staff Nurse",
+                        first_name="Joan",
+                        last_name="Done",
+                        user=user,
+                        image="default.jpg")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "2", 'username': 'Joan', 'password': 'janepassword'})
+        response = self.client.get(reverse('rota:editprofile'))
+        content = response.content.decode()
+
+        try:
+            self.assertEqual(response.status_code, 200)
+        except:
+            self.assertEqual(response.status_code, 302)
+        self.assertTrue("Edit Profile" in content)
+
+    def test_timetable(self):
+        user = User.objects.get_or_create(username='Jo',
+                                          email='done@nhs.com',
+                                          password='janepassword')[0]
+        user.set_password('janepassword')
+        user.save()
+
+        add_UserProfile(registration_id="3",
+                        job_title="Staff Nurse",
+                        first_name="Joan",
+                        last_name="Done",
+                        user=user,
+                        image="default.jpg")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "2", 'username': 'Jo', 'password': 'janepassword'})
+        response = self.client.get(reverse('rota:timetable'))
+        content = response.content.decode()
+
+        try:
+            self.assertEqual(response.status_code, 200)
+        except:
+            self.assertEqual(response.status_code, 302)
+        self.assertTrue(str(datetime.now().month) in content)
