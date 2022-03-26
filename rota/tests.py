@@ -17,6 +17,27 @@ FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.lines
 FAILURE_FOOTER = f"{os.linesep}"
 
 
+def create_user(username, email, registration_id,
+                job_title,
+                first_name,
+                last_name,
+                image="default.jpg",
+                password="janepassword"):
+    user = User.objects.get_or_create(username=username,
+                                      email=email,
+                                      password=password)[0]
+    user.set_password(password)
+    user.save()
+
+    add_UserProfile(registration_id=registration_id,
+                    job_title=job_title,
+                    first_name=first_name,
+                    last_name=last_name,
+                    user=user,
+                    image=image)
+    return user
+
+
 def add_UserProfile(user, registration_id="0", first_name="Jane",
                     last_name="Doe", job_title="Nurse", phone_number="00000000000", ward="A2",
                     date_admission=datetime.now(), image=""):
@@ -252,18 +273,7 @@ class TestFunction(TestCase):
         self.assertTrue('Add new shift' in content)
 
     def test_editprofile(self):
-        user = User.objects.get_or_create(username='Joan',
-                                          email='done@nhs.com',
-                                          password='janepassword')[0]
-        user.set_password('janepassword')
-        user.save()
-
-        add_UserProfile(registration_id="3",
-                        job_title="Staff Nurse",
-                        first_name="Joan",
-                        last_name="Done",
-                        user=user,
-                        image="default.jpg")
+        user = create_user('Joan', 'done@nhs.com', "3", "Staff Nurse", "Joan", "Done")
         r = self.client.post(reverse('rota:login'),
                              {'registration_id': "2", 'username': 'Joan', 'password': 'janepassword'})
         response = self.client.get(reverse('rota:editprofile'))
@@ -276,20 +286,9 @@ class TestFunction(TestCase):
         self.assertTrue("Edit Profile" in content)
 
     def test_timetable(self):
-        user = User.objects.get_or_create(username='Jo',
-                                          email='done@nhs.com',
-                                          password='janepassword')[0]
-        user.set_password('janepassword')
-        user.save()
-
-        add_UserProfile(registration_id="3",
-                        job_title="Staff Nurse",
-                        first_name="Joan",
-                        last_name="Done",
-                        user=user,
-                        image="default.jpg")
+        user = create_user('J', 'done@nhs.com', '5', "Charge Nurse", "J", "Done")
         r = self.client.post(reverse('rota:login'),
-                             {'registration_id': "2", 'username': 'Jo', 'password': 'janepassword'})
+                             {'registration_id': "5", 'username': 'J', 'password': 'janepassword'})
         response = self.client.get(reverse('rota:timetable'))
         content = response.content.decode()
 
@@ -298,3 +297,42 @@ class TestFunction(TestCase):
         except:
             self.assertEqual(response.status_code, 302)
         self.assertTrue(str(datetime.now().month) in content)
+
+    def test_new_shift_link_charge_nurse(self):
+        user = create_user('Job', 'done@nhs.com', '6', "Charge Nurse", "Job", "Done")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "6", 'username': 'Job', 'password': 'janepassword'})
+        content = self.client.get(reverse('rota:timetable')).content.decode()
+        self.assertTrue("New Shift" in content)
+
+    def test_new_shift_link_staff_nurse(self):
+        user = create_user('Job', 'done@nhs.com', '7', "Staff Nurse", "Job", "Done")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "7", 'username': 'Job', 'password': 'janepassword'})
+        content = self.client.get(reverse('rota:timetable')).content.decode()
+        self.assertTrue("New Shift" not in content)
+
+    def test_edit_shift_charge_nurse(self):
+        user = create_user('Job2', 'done@nhs.com', '8', "Charge Nurse", "Job2", "Done")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "8", 'username': 'Job2', 'password': 'janepassword'})
+        shift = Request.objects.get_or_create(requested_by_staff="Jane", request_id="1", staff_job_title="Charge Nurse",
+                                              request_date=datetime.now(),
+                                              shift_time=datetime.now())[0]
+
+        content = self.client.get(reverse('rota:shift_edit', kwargs={'shift_id': shift.request_id})).content.decode()
+        self.assertTrue("Add new shift" in content)
+
+    def test_edit_shift_staff_nurse(self):
+        user = create_user('Job3', 'done@nhs.com', '9', "Staff Nurse", "Job3", "Done")
+        r = self.client.post(reverse('rota:login'),
+                             {'registration_id': "9", 'username': 'Job3', 'password': 'janepassword'})
+        shift2 = Request.objects.get_or_create(requested_by_staff="Jane", request_id="2", staff_job_title="Staff Nurse",
+                                               request_date=datetime.now(),
+                                               shift_time=datetime.now())[0]
+
+        response = self.client.get(reverse('rota:shift_edit', kwargs={'shift_id': shift2.request_id}))
+        content = response.content.decode()
+        print(content)
+        self.assertTrue("Add new shift" not in content)
+        self.assertTrue(response.url, '')
