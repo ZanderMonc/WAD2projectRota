@@ -4,7 +4,7 @@ from calendar import HTMLCalendar
 from rota.models import Timetable, Request
 
 
-class Table(HTMLCalendar):
+class Table(HTMLCalendar):#util function creates timetable to be passed as view
     def __init__(self, year=None, month=None):
         self.year = year
         self.month = month

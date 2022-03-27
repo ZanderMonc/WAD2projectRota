@@ -55,7 +55,7 @@ def add_UserProfile(user, registration_id="0", first_name="Jane",
     return u
 
 
-class ConfigTestCase(TestCase):
+class ConfigTestCase(TestCase):#tests app is configured
 
     def test_middleware_present(self):
         self.assertTrue('django.contrib.sessions.middleware.SessionMiddleware' in settings.MIDDLEWARE)
@@ -67,7 +67,7 @@ class ConfigTestCase(TestCase):
         self.assertTrue('rota' in settings.INSTALLED_APPS)
 
 
-class ModelsTestCase(TestCase):
+class ModelsTestCase(TestCase):#tests models save and retrieve correctly
     def setUp(self):
         Request.objects.create(requested_by_staff="unknown", request_id="0",
                                request_date="2001-01-01 00:01", )
@@ -85,7 +85,7 @@ class ModelsTestCase(TestCase):
         self.assertEqual("Joe", UserProfile.objects.get(registration_id="1").first_name)
 
 
-class ViewTests(TestCase):
+class ViewTests(TestCase):#the following tests for url correctness
 
     def test_index_exists(self):
         url = ''
@@ -215,7 +215,7 @@ class ViewTests(TestCase):
         self.assertTrue(re.search(searchfor, content))
 
 
-class TestFunction(TestCase):
+class TestFunction(TestCase): #tests main functionality
     def test_login_functionality(self):
         user = create_user('Jane', 'doe@nhs.com', "1", 'Charge Nurse', "Jane", "Doe")
         response = self.client.post(reverse('rota:login'), {'username': 'Jane', 'password': 'janepassword'})

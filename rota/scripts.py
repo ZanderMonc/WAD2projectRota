@@ -7,6 +7,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from models import Request
 
+# all the following is unimplemented, semi-functional testing of exporting shifts to google calendar
 service_account_email = "rotacaretester@rotacare.iam.gserviceaccount.com"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 

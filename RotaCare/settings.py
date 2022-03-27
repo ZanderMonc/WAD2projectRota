@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'nu$f^a+8@e(y6l(^jjnktf24l)06zi2g*dd8qe4c71agxdp5kt'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production! #turned off on python anywhere
 DEBUG = True
 
 ALLOWED_HOSTS = ['zandermonc.pythonanywhere.com','127.0.0.1']
