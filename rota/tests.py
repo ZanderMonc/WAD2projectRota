@@ -10,7 +10,7 @@ import re
 from django.test import TestCase
 from django.urls import reverse
 
-import populate_RotaCare
+import population_script
 from rota.models import Request, UserProfile
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}RotaCare TEST FAILURE =({os.linesep}================{os.linesep}"

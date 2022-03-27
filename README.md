@@ -3,6 +3,8 @@ Web app dev project 2022
 
 Link to the project down below:
 
-https://rotacare.azurewebsites.net
+http://zandermonc.pythonanywhere.com/timetable/
 
-Changes mafe to the repository shall display on the link.
+sources used: 
+https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html
+
