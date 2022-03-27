@@ -4,7 +4,6 @@
 {% block title_block %}
 Edit Profile
 {% endblock %}
-
 {% block body_block %}
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -51,7 +50,9 @@ Edit Profile
                             <label class="input-group-text" for="image">Profile Picture:</label>
                             <input type="file" class="form-control" name="image" value="" id="image" aria-label="image" accept="image/png, image/jpg, image/jpeg">
                         </div>
+                        {% if user.userprofile.job_title != "" %}
                         <button type="submit" class="btn btn-primary btn-lg btn-block text-white">Save Changes</button>
+                        {% endif %}
                     </form>
                 </div>
             </div>
