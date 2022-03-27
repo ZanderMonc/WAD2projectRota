@@ -18,6 +18,7 @@ class Table(HTMLCalendar):#util function creates timetable to be passed as view
         night_list_hcsw = []
         night_list_sn = []
 
+        # For loop to separate the HCSW and Staff Nurses in 4 lists, day and night for each type of member of staff.
         for shift in shifts_on_day:
             if shift.get_shift_time == "Day Shift":
                 if shift.get_job_title == "Healthcare Support Worker":
@@ -30,6 +31,7 @@ class Table(HTMLCalendar):#util function creates timetable to be passed as view
                 else:
                     night_list_sn.append(shift)
 
+        # Adding the day shift HCSW and Staff nurses to the string.
         if (len(day_list_hcsw) or len(day_list_sn)) != 0:
             d += f'<b>Day Shift</b> </br>'
             if len(day_list_sn) != 0:
@@ -42,6 +44,7 @@ class Table(HTMLCalendar):#util function creates timetable to be passed as view
                     d += f'{shift.get_html_url} </br>'
             d += f' </br>'
 
+        # Adding the night shift HCSW and Staff nurses to the string.
         if (len(night_list_hcsw) or len(night_list_sn)) != 0:
             d += f'<b>Night Shift</b> </br>'
             if len(night_list_sn) != 0:

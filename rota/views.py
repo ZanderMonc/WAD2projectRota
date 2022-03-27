@@ -15,9 +15,6 @@ from django.utils.safestring import mark_safe
 from .models import *
 from .utils import Table
 
-
-# Create your views here.
-
 class T(generic.ListView):  # T view represents a timetable
     model = Request
     template_name = 'rota/timetable.html'
@@ -40,14 +37,14 @@ class T(generic.ListView):  # T view represents a timetable
         context['next_month'] = next_month(d)
         return context
 
-
+# Return previous month.
 def prev_month(d):
     first = d.replace(day=1)
     pr_month = first - timedelta(days=1)
     month = 'month=' + str(pr_month.year) + '-' + str(pr_month.month)
     return month
 
-
+# Return next month.
 def next_month(d):
     days_in_month = calendar.monthrange(d.year, d.month)[1]
     last = d.replace(day=days_in_month)
@@ -55,7 +52,7 @@ def next_month(d):
     month = 'month=' + str(n_month.year) + '-' + str(n_month.month)
     return month
 
-
+# Shift view to add a shift
 def shift(request, shift_id=None, ):
     instance = Request()
     user = User.objects.get(id=request.user.id)
@@ -74,7 +71,7 @@ def shift(request, shift_id=None, ):
         return render(request, 'rota/shift.html', {'form': form, 'user': user, 'all_users': all_users, })
     return HttpResponseRedirect(reverse('rota:timetable'))
 
-
+# View to edit a shift
 def edit_shift(request, shift_id):
     shift_id = shift_id
     objeto = Request.objects.filter(request_id=shift_id)[0]
@@ -95,6 +92,7 @@ def edit_shift(request, shift_id):
                       {'form': form, 'user': user, 'all_users': all_users, "shift_id": shift_id, "objeto":objeto})
     return HttpResponseRedirect(reverse('rota:timetable'))
 
+# View to delete a shift object.
 def deleteShift(request, shift_id):
     shift = Request.objects.get(request_id=shift_id)
     shift.delete()
@@ -118,7 +116,7 @@ def about(request):
 def contactus(request):
     return render(request, 'rota/contactus.html', )
 
-
+# Register view to register the user and userprofile models.
 def register(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, request.FILES)
@@ -143,55 +141,28 @@ def register(request):
     return render(request, "rota/register.html", context={"user_form": user_form,
                                                           "profile_form": profile_form, })
 
-
+# User login view
 def user_login(request):
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
-        # We use request.POST.get('<variable>') as opposed
-        # to request.POST['<variable>'], because the
-        # request.POST.get('<variable>') returns None if the
-        # value does not exist, while request.POST['<variable>']
-        # will raise a KeyError exception.
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         if user:
-            # Is the account active? It could have been disabled.
             if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
                 login(request, user)
                 return redirect(reverse('rota:timetable'))
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your RotaCare account is disabled.")
         else:
-            # Bad login details were provided. So we can't log the user in.
             print(f"Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
-
-        # The request is not a HTTP POST, so display the login form.
-        # This scenario would most likely be a HTTP GET.
     else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
         return render(request, 'rota/login.html')
 
 
 @login_required
 def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
     logout(request)
-    # Take the user back to the homepage.
     return redirect(reverse('rota:index'))
 
 

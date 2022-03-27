@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
 
-
+# Model of a user profile.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -31,7 +31,7 @@ class UserProfile(models.Model):
                 img.thumbnail(output_size)
                 img.save(self.image.path)
 
-
+# Model for a single shift.
 class Request(models.Model):
     requested_by_staff = models.CharField(max_length=80)
     request_id = models.AutoField(primary_key=True)
@@ -42,7 +42,7 @@ class Request(models.Model):
     def __str__(self):
         return str(self.request_id)
 
-    @property
+    @property # Function to return a url with the request id reference and the name of the staff.
     def get_html_url(self):
         url = reverse('rota:shift_edit', args=(self.request_id,))
         return f'<a href="{url}"> {self.requested_by_staff} </a>'
@@ -59,7 +59,7 @@ class Request(models.Model):
     def get_shift_time(self):
         return self.shift_time
 
-
+# Model of our timetable.
 class Timetable(models.Model):
     timetable_id = models.AutoField(primary_key=True)
     staff_name = models.CharField(max_length=80)
