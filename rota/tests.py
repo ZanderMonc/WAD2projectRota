@@ -288,7 +288,7 @@ class TestFunction(TestCase):
                                               shift_time=datetime.now())[0]
 
         content = self.client.get(reverse('rota:shift_edit', kwargs={'shift_id': shift.request_id})).content.decode()
-        self.assertTrue("Add new shift" in content)
+        self.assertTrue("Edit Shift" in content)
 
     def test_edit_shift_staff_nurse(self):
         user = create_user('Job3', 'done@nhs.com', '9', "Staff Nurse", "Job3", "Done")

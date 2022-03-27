@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nu$f^a+8@e(y6l(^jjnktf24l)06zi2g*dd8qe4c71agxdp5kt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['zandermonc.pythonanywhere.com','127.0.0.1']
 
@@ -121,8 +121,8 @@ USE_L10N = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_URL]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = os.path.join(STATIC_DIR, "rota")
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
