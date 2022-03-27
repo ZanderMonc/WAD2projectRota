@@ -131,7 +131,5 @@ def add_Timetable(timetable_id="1",
 
 
 if __name__ == '__main__':
-    management.call_command('flush')
-    management.call_command('createsuperuser')
     print("populating rota database")
     populate()
