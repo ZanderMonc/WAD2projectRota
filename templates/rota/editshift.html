@@ -1,0 +1,54 @@
+{% extends 'rota/base.html' %}
+
+{% block title_block %}
+Edit Shift
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container py-4 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card-body p-5 text-left">
+          <h3 class="mb-0 text-center">Edit shift</h3>
+          <!-- Wrapper container -->
+          <div class="container py-4">
+            <form method="post">
+              {% csrf_token %}
+              <table class="form form-table">
+                <div class="input-group mb-3">
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Staff: </span>
+                    <input type="text" class="form-control" name="requested_by_staff" value="{{objeto.requested_by_staff}}" aria-label="requested_by_staff" aria-describedby="basic-addon1 " readonly>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Job Title: </span>
+                  <input type="text" class="form-control" name="staff_job_title" value="{{objeto.staff_job_title}}" aria-label="staff_job_title" aria-describedby="basic-addon1 " readonly>
+                </div>
+
+                <input type="radio" class="btn-check" name="shift_time" id="day_shift" value="Day Shift" autocomplete="off" >
+                <label class="btn btn-outline-primary" for="day_shift">Day Shift</label>
+
+                <input type="radio" class="btn-check" name="shift_time" id="night_shift" value= "Night Shift" autocomplete="off">
+                <label class="btn btn-outline-primary" for="night_shift">Night Shift</label>
+
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="request_date">Date:  </label>
+                  <input id="request_date" class="form-control" type="date" name="request_date" value="{{objeto.request_date}}" />
+                  <span id="startDateSelected"></span>
+                </div>
+                <tr><td colspan="2"><button type="submit" class="btn btn-primary btn-lg btn-block text-white">Submit</button></td></tr>
+                <td><a href="{%url 'rota:delete-shift' objeto.request_id %}" class="btn btn-danger btn-lg btn-block text-white"> Delete</a></td>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

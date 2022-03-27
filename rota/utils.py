@@ -13,9 +13,45 @@ class Table(HTMLCalendar):
     def formatday(self, day, shifts):
         shifts_on_day = shifts.filter(request_date__day=day)
         d = ''
+        day_list_hcsw = []
+        day_list_sn = []
+        night_list_hcsw = []
+        night_list_sn = []
+
         for shift in shifts_on_day:
-            d += f'<li> {shift.get_html_url} </li>'
-            d += shift.get_shift_time
+            if shift.get_shift_time == "Day Shift":
+                if shift.get_job_title == "Healthcare Support Worker":
+                    day_list_hcsw.append(shift)
+                else:
+                    day_list_sn.append(shift)
+            else:
+                if shift.get_job_title == "Healthcare Support Worker":
+                    night_list_hcsw.append(shift)
+                else:
+                    night_list_sn.append(shift)
+
+        if (len(day_list_hcsw) or len(day_list_sn)) != 0:
+            d += f'<b>Day Shift</b> </br>'
+            if len(day_list_sn) != 0:
+                d += f'Staff Nurse </br>'
+                for shift in day_list_sn:
+                    d += f'{shift.get_html_url} </br>'
+            if len(day_list_hcsw) != 0:
+                d += f'Healthcare Support Worker </br>'
+                for shift in day_list_hcsw:
+                    d += f'{shift.get_html_url} </br>'
+            d += f' </br>'
+
+        if (len(night_list_hcsw) or len(night_list_sn)) != 0:
+            d += f'<b>Night Shift</b> </br>'
+            if len(night_list_sn) != 0:
+                d += f'Staff Nurse </br>'
+                for shift in night_list_sn:
+                    d += f'{shift.get_html_url} </br>'
+            if len(night_list_hcsw) != 0:
+                d += f'Healthcare Support Worker </br>'
+                for shift in night_list_hcsw:
+                    d += f'{shift.get_html_url} </br>'
         if day != 0:
             return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'

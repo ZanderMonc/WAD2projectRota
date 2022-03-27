@@ -20,9 +20,9 @@
 
                   <label class="input-group-text" for="requested_by_staff">Staff: </label>
                   <select class="form-select" id="requested_by_staff" name="requested_by_staff" value="">
-                    <option selected value="{{user.userprofile.job_title}}">Choose...</option>
+                    <option selected value="{{each_user.userprofile.first_name}} {{each_user.userprofile.last_name}}">Choose...</option>
                     {% for each_user in all_users %}
-                    <option value = "{{each_user.userprofile.first_name}}">{{each_user.userprofile.first_name}} {{each_user.userprofile.last_name}}</option>
+                    <option value = "{{each_user.userprofile.first_name}} {{each_user.userprofile.last_name}}">{{each_user.userprofile.first_name}} {{each_user.userprofile.last_name}} - {{each_user.userprofile.job_title}}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -36,27 +36,25 @@
                   </select>
                 </div>
 
-                <input type="radio" class="btn-check" name="shift_time" id="day_shift" autocomplete="off" >
+                <input type="radio" class="btn-check" name="shift_time" id="day_shift" value = "Day Shift" autocomplete="off" >
                 <label class="btn btn-outline-primary" for="day_shift">Day Shift</label>
 
-                <input type="radio" class="btn-check" name="shift_time" id="night_shift" autocomplete="off">
+                <input type="radio" class="btn-check" name="shift_time" id="night_shift" value= "Night Shift" autocomplete="off">
                 <label class="btn btn-outline-primary" for="night_shift">Night Shift</label>
 
                 <div class="input-group mb-3">
                   <label class="input-group-text" for="request_date">Date: </label>
-                  <input id="request_date" class="form-control" type="date" name="request_date" />
+                  <input id="request_date" class="form-control" type="date" name="request_date"  />
                   <span id="startDateSelected"></span>
                 </div>
                 <tr><td colspan="2"><button type="submit" class="btn btn-primary btn-lg btn-block text-white">Submit</button></td></tr>
               </table>
             </form>
-
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
 

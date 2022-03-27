@@ -5,20 +5,16 @@ from PIL import Image
 
 
 class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    # The additional attributes we wish to include.
     registration_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    job_title = models.CharField(max_length=40)
-    phone_number = models.CharField(max_length=15)
-    ward = models.CharField(max_length=40)
+    first_name = models.CharField(max_length=40, default="FirstName")
+    last_name = models.CharField(max_length=40, default="LastName")
+    job_title = models.CharField(max_length=40, default="Staff Nurse")
+    phone_number = models.CharField(max_length=15, default="12345678910")
+    ward = models.CharField(max_length=40, default="Default")
     date_admission = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-
-
 
     def __str__(self):
         return str(self.user.username)
@@ -27,13 +23,13 @@ class UserProfile(models.Model):
         super().save()
 
         if self.image != "":
-            img = Image.open(self.image.path)  # Open image
+            img = Image.open(self.image.path)
 
             # resize image
             if img.height > 300 or img.width > 300:
                 output_size = (300, 300)
-                img.thumbnail(output_size)  # Resize image
-                img.save(self.image.path)  # Save it again and override the larger image
+                img.thumbnail(output_size)
+                img.save(self.image.path)
 
 
 class Request(models.Model):
@@ -49,7 +45,11 @@ class Request(models.Model):
     @property
     def get_html_url(self):
         url = reverse('rota:shift_edit', args=(self.request_id,))
-        return f'<a href="{url}"> {self.requested_by_staff + " - " + self.get_job_title} </a>'
+        return f'<a href="{url}"> {self.requested_by_staff} </a>'
+
+    @property
+    def get_staff_name(self):
+        return self.requested_by_staff
 
     @property
     def get_job_title(self):

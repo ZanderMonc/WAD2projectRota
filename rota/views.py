@@ -1,9 +1,8 @@
 import calendar
 
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.urls import reverse
 from rota.forms import UserForm, UserProfileForm, ShiftForm, UpdateProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -13,14 +12,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from django.utils.safestring import mark_safe
-from django.contrib.auth.models import User
-
 from .models import *
 from .utils import Table
 
 
 # Create your views here.
-
 
 class T(generic.ListView):  # T view represents a timetable
     model = Request
@@ -60,8 +56,7 @@ def next_month(d):
     return month
 
 
-def shift(request, shift_id=None,):
-
+def shift(request, shift_id=None, ):
     instance = Request()
     user = User.objects.get(id=request.user.id)
     userprofile = UserProfile.objects.filter(user=user)[0]
@@ -76,10 +71,34 @@ def shift(request, shift_id=None,):
         if request.POST and form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('rota:timetable'))
-        return render(request, 'rota/shift.html', {'form': form, 'user':user, 'all_users':all_users, })
+        return render(request, 'rota/shift.html', {'form': form, 'user': user, 'all_users': all_users, })
     return HttpResponseRedirect(reverse('rota:timetable'))
 
 
+def edit_shift(request, shift_id):
+    shift_id = shift_id
+    objeto = Request.objects.filter(request_id=shift_id)[0]
+    user = User.objects.get(id=request.user.id)
+    userprofile = UserProfile.objects.filter(user=user)[0]
+    all_users = User.objects.all()
+    if userprofile.job_title == "Charge Nurse":
+        if shift_id:
+            instance = get_object_or_404(Request, pk=shift_id)
+        else:
+            instance = Request()
+
+        form = ShiftForm(request.POST or None, instance=instance)
+        if request.POST and form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('rota:timetable'))
+        return render(request, 'rota/editshift.html',
+                      {'form': form, 'user': user, 'all_users': all_users, "shift_id": shift_id, "objeto":objeto})
+    return HttpResponseRedirect(reverse('rota:timetable'))
+
+def deleteShift(request, shift_id):
+    shift = Request.objects.get(request_id=shift_id)
+    shift.delete()
+    return redirect('rota:timetable')
 
 def get_date(req_day):
     if req_day:
@@ -101,11 +120,9 @@ def contactus(request):
 
 
 def register(request):
-    registered = False
-
     if request.method == "POST":
-        user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        user_form = UserForm(request.POST, request.FILES)
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -116,12 +133,7 @@ def register(request):
             profile.user = user
 
             profile.save()
-
-            registered = True
-
-            return render(request, "rota/login.html", context={"user_form": user_form,
-                                                                  "profile_form": profile_form,
-                                                                  "registered": registered, })
+            return redirect("rota:login")
         else:
             print(user_form.errors, profile_form.errors)
     else:
@@ -129,8 +141,7 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request, "rota/register.html", context={"user_form": user_form,
-                                                          "profile_form": profile_form,
-                                                          "registered": registered, })
+                                                          "profile_form": profile_form, })
 
 
 def user_login(request):
@@ -192,7 +203,7 @@ def profile(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        update_form = UpdateProfileForm(request.POST, instance=request.user.userprofile)
+        update_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
         if update_form.is_valid:
             update_form.save()
             return redirect('rota:profile')

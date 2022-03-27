@@ -14,5 +14,6 @@ urlpatterns = [
     path('editprofile/', views.edit_profile, name='editprofile'),
     path('timetable/', views.T.as_view(), name='timetable'),
     path('shift/new/', views.shift, name='shift_new'),
-    path('shift/edit/<shift_id>/', views.shift, name='shift_edit'),
+    path('editshift/<shift_id>/', views.edit_shift, name='shift_edit'),
+    path('delete-shift/<shift_id>/,', views.deleteShift, name='delete-shift'),
 ]
